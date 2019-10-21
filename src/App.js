@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar />
-        <h1>Hello from Mint 19</h1>
+        <h1>Hello from Mint 19 linux distro</h1>
       </div>
     );
   }
