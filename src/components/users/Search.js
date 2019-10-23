@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from "react";
+import PropTypes from "prop-types";
+import GithubContext from "../../context/github/githubContext";
 
-const Search = ({ showClear, clearUsers, searchUsers, setAlert }) => {
-  const [text, setText] = useState('');
+const Search = ({ setAlert }) => {
+  const githubContext = useContext(GithubContext);
+
+  const [text, setText] = useState("");
 
   const onChange = e => setText(e.target.value);
 
   const onSubmit = e => {
     e.preventDefault();
 
-    if (text === '') return setAlert('Please enter something..', 'light');
+    if (text === "") return setAlert("Please enter something..", "light");
 
-    searchUsers(text);
-    setText('');
+    githubContext.searchUsers(text);
+    setText("");
   };
 
   return (
     <div>
-      <form onSubmit={onSubmit} className='form'>
+      <form onSubmit={onSubmit} className="form">
         <input
-          type='text'
-          name='text'
-          placeholder='Search users...'
+          type="text"
+          name="text"
+          placeholder="Search users..."
           value={text}
           onChange={onChange}
         />
         <input
-          type='submit'
-          value='Search'
-          className='btn btn-dark btn-block'
+          type="submit"
+          value="Search"
+          className="btn btn-dark btn-block"
         ></input>
       </form>
-      {showClear && (
-        <button className='btn btn-light btn-block' onClick={clearUsers}>
+      {githubContext.users.length > 0 && (
+        <button
+          className="btn btn-light btn-block"
+          onClick={githubContext.clearUsers}
+        >
           Clear
         </button>
       )}
@@ -41,9 +47,6 @@ const Search = ({ showClear, clearUsers, searchUsers, setAlert }) => {
 };
 
 Search.propTypes = {
-  searchUsers: PropTypes.func.isRequired,
-  clearUsers: PropTypes.func.isRequired,
-  showClear: PropTypes.bool.isRequired,
   setAlert: PropTypes.func.isRequired
 };
 
